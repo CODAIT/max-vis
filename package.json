@@ -1,6 +1,6 @@
 {
   "name": "@codait/max-vis",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Image annotation utility for MAX image models",
   "main": "dist/max-vis.cjs.js",
   "module": "dist/max-vis.es.js",

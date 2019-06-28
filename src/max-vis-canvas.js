@@ -1,4 +1,4 @@
-/* global ImageData, FontFace */
+/* global ImageData */
 
 const DEFAULT_LINE = 3
 let createCanvasElement
@@ -13,19 +13,10 @@ if (process.rollupBrowser) {
   createEmptyImageData = function (width, height) {
     return new ImageData(width, height)
   }
-
-  const ibmPlex = new FontFace('IBM Plex Sans', 'url(../fonts/ibm-plex-sans/IBMPlexSans-Regular.ttf)')
-  ibmPlex.load().then(fontFace => {
-    document.fonts.add(fontFace)
-  }).catch(console.log)
 } else {
-  const path = require('path')
-  const { createCanvas, createImageData, registerFont } = require('canvas')
+  const { createCanvas, createImageData } = require('canvas')
   createCanvasElement = createCanvas
   createEmptyImageData = createImageData
-
-  const fontPath = path.resolve(__dirname, '..', 'fonts', 'ibm-plex-sans', 'IBMPlexSans-Regular.ttf')
-  registerFont(fontPath, { family: 'IBM Plex Sans', weight: '400' })
 }
 
 const getCanvasOverlay = function (image, options) {
@@ -145,7 +136,6 @@ const drawLabel = function (label, canvasCtx, x1, y1, c = 'black') {
   canvasCtx.fillRect(x, y, w + (hPad * 2), lHeight)
 
   const t = labelContrastColor(...c)
-  console.log(...c, t)
   canvasCtx.fillStyle = (Array.isArray(t) ? `rgb(${t})` : t)
   canvasCtx.fillText(label, x + hPad, y + (lHeight - fontSize) / 2)
   canvasCtx.closePath()
