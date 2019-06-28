@@ -3,6 +3,9 @@
 .vscode
 
 *.tgz
+rollup.config.js
 
-dist/
 node_modules/
+images/
+demos/
+src/

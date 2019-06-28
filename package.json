@@ -1,0 +1,54 @@
+{
+  "name": "@codait/max-vis",
+  "version": "0.1.0",
+  "description": "Image annotation utility for MAX image models",
+  "main": "dist/max-vis.cjs.js",
+  "module": "dist/max-vis.es.js",
+  "jsdelivr": "dist/max-vis.min.js",
+  "unpkg": "dist/max-vis.min.js",
+  "scripts": {
+    "build": "npm run clean && npm run rollup && npm run uglify",
+    "clean": "rimraf dist && mkdirp dist",
+    "rollup": "rollup --config rollup.config.js",
+    "uglify": "uglifyjs dist/max-vis.js -mc --source-map --output dist/max-vis.min.js",
+    "test": "standard && echo \"Only code linting currently being run\""
+  },
+  "contributors": [
+    "Nick Kasten (https://github.com/kastentx)",
+    "va barbosa (https://github.com/vabarbosa/)"
+  ],
+  "license": "Apache-2.0",
+  "keywords": [
+    "model asset exchange",
+    "max",
+    "machine learning",
+    "deep learning",
+    "visualization",
+    "image segmenter",
+    "object detection"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CODAIT/max-vis.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CODAIT/max-vis/issues"
+  },
+  "homepage": "https://github.com/CODAIT/max-vis#readme",
+  "devDependencies": {
+    "mkdirp": "^0.5.1",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.6.0",
+    "rollup-plugin-replace": "^2.1.0",
+    "standard": "^12.0.1",
+    "uglify-es": "^3.3.9"
+  },
+  "dependencies": {
+    "canvas": "^2.1.0"
+  },
+  "standard": {
+    "ignore": [
+      "dist"
+    ]
+  }
+}
