@@ -8,7 +8,7 @@ Given the source image and the JSON prediction from one of the MAX image model, 
 
 - browser
 
-   ```
+   ```javascript
    <script src="https://cdn.jsdelivr.net/npm/@codait/max-vis"></script>
    ```
 
@@ -110,19 +110,19 @@ Available options to pass to the API. All are optional and by default, `max-vis`
 
 The [`/demos`](https://github.com/CODAIT/max-vis/tree/master/demos) directory contains working examples for the browser and Node.js.
 
-- **annotate bounding boxes**
+- **annotate bounding boxes**  
 ![jockey](images/jockey-annotate.jpg)
 
-- **extract bounding boxes**
+- **extract bounding boxes**  
 ![jockey](images/jockey-extract.png)
 
-- **annotate segmentation maps**
+- **annotate segmentation maps**  
 ![soccer](images/soccer-annotate.jpg)
 
-- **extract segmentation maps**
+- **extract segmentation maps**  
 ![soccer](images/soccer-extract.png)
 
-- **annotate pose lines**
+- **annotate pose lines**  
 ![pilots](images/pilots-annotate.jpg)
 
 
