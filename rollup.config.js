@@ -1,4 +1,13 @@
 import replace from 'rollup-plugin-replace'
+import json from 'rollup-plugin-json'
+
+const jsonPlugin = json({
+  include: 'package.json',
+  preferConst: true,
+  indent: '  ',
+  compact: true,
+  namedExports: ['version']
+})
 
 export default [
   {
@@ -7,20 +16,21 @@ export default [
       {
         format: 'iife',
         compact: true,
-        name: 'maxVis',
+        name: 'maxvis',
         file: 'dist/max-vis.js'
       },
       {
         format: 'es',
         compact: true,
-        name: 'maxVis',
+        name: 'maxvis',
         file: 'dist/max-vis.es.js'
       }
     ],
     plugins: [
       replace({
         'process.rollupBrowser': true
-      })
+      }),
+      jsonPlugin
     ]
   }, {
     input: 'src/max-vis.js',
@@ -28,14 +38,15 @@ export default [
       {
         format: 'cjs',
         compact: true,
-        name: 'maxVis',
+        name: 'maxvis',
         file: 'dist/max-vis.cjs.js'
       }
     ],
     plugins: [
       replace({
         'process.rollupBrowser': false
-      })
+      }),
+      jsonPlugin
     ]
   }
 ]

@@ -3,6 +3,7 @@ import * as segments from './max-vis-segments.js'
 import * as boxes from './max-vis-boxes.js'
 import { actions as utilActions, getImage, getPredictionSize } from './max-vis-util.js'
 import { getCanvasOverlay } from './max-vis-canvas.js'
+import { version } from '../package.json'
 
 const visualizers = [lines, segments, boxes]
 const { OVERLAY, ANNOTATE, EXTRACT } = { ...utilActions }
@@ -14,8 +15,8 @@ const run = async function (action, prediction, image, options = {}) {
 
   if (!vis) {
     const msg = options.type
-      ? `max-vis '${action}' does support type (${options.type})`
-      : `Unable to determine appropriate type or '${action}()' does support prediction structure`
+      ? `max-vis '${action}' does not support type (${options.type})`
+      : `Unable to determine type or '${action}()' does not support the provided prediction`
     throw Error(msg)
   }
 
@@ -68,7 +69,7 @@ const overlay = async function (prediction, image, options = {}) {
  * @param {Object} prediction The prediction object from a MAX image model
  * @param {HTMLImageElement} image The HTMLImageElement to render the results
  * @param {Object} options Options to customize annotation
- * @returns {Blob} A copy of the `image` with the prediction results rendered on it
+ * @returns {Blob|Buffer} A Blob object (in browsers) of Buffer (in Node.js) of the annotated `image/png`
  */
 const annotate = async function (prediction, image, options = {}) {
   return run(ANNOTATE, prediction, image, options)
@@ -81,7 +82,7 @@ const annotate = async function (prediction, image, options = {}) {
  * @param {Object} prediction The prediction object from a MAX image model
  * @param {HTMLImageElement} image The HTMLImageElement to extract the results
  * @param {Object} options Options to customize extraction
- * @returns {Array} An array of Objects containing the results `label` and extracted `image` (Blob or Buffer)
+ * @returns {Array} An array of objects containing the results `label` and extracted `image/png` (Blob or Buffer)
  */
 const extract = async function (prediction, image, options = {}) {
   return run(EXTRACT, prediction, image, options)
@@ -90,5 +91,6 @@ const extract = async function (prediction, image, options = {}) {
 export {
   overlay,
   annotate,
-  extract
+  extract,
+  version
 }
