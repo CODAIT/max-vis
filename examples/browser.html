@@ -1,0 +1,146 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>max-vis</title>
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+    <style>
+      body { padding: 20px; font-family: 'IBM Plex Sans', sans-serif; }
+      h1 { margin: 0; }
+      p { margin: 0 0 30px 0; }
+      #version { font-size: 0.8em; font-family: 'IBM Plex Mono', monospace; }
+      code { font-family: 'IBM Plex Mono', monospace; }
+      .wrappingDiv { padding: 10px 0; }
+      #imageWrapper { position: relative; display: inline-block; min-width: 600px; vertical-align: top; }
+      #imageElt { z-index: 1; position: absolute; left: 0px; top: 0px; width: 512px; }
+      #maxvisOutput > img { display: block; padding-bottom: 10px; }
+    </style>
+  </head>
+  <script>
+    function disableElements (disable) {
+      if (disable) {
+        document.getElementById('maxvisOutput').innerHTML = ''
+
+        const imageElt = document.getElementById('imageElt')
+        if (imageElt && imageElt.width && imageElt.nextElementSibling) {
+          imageElt.nextElementSibling.getContext('2d').clearRect(0, 0, imageElt.width, imageElt.height)
+        }
+
+        document.getElementById('fileInput').setAttribute('disabled', true)
+        document.getElementById('runButton').setAttribute('disabled', true)
+      } else {
+        document.getElementById('fileInput').removeAttribute('disabled')
+        document.getElementById('runButton').removeAttribute('disabled')
+      }
+    }
+
+    function loadImage (input) {
+      if (input.files && input.files[0]) {
+        disableElements(true)
+
+        const reader = new FileReader()
+        reader.onload = function (e) {
+          const imageElt = document.getElementById('imageElt')
+          imageElt.src = reader.result
+          imageElt.style.display = ''
+          disableElements(false)
+        }
+
+        reader.readAsDataURL(input.files[0])
+      }
+    }
+
+    function runInference () {
+      const imageElt = document.getElementById('imageElt')
+      return imageSegmenter.predict(imageElt)
+    }
+
+    function renderPrediction (prediction) {
+      const imageElt = document.getElementById('imageElt')
+      const maxvisAction = document.getElementById('maxvisAction').value
+
+      if (maxvisAction === 'overlay') {
+        // overlay over existing image
+        maxvis.overlay(prediction, imageElt)
+      } else if (maxvisAction === 'annotate') {
+        // generate new annoted image
+        maxvis.annotate(prediction, imageElt)
+          .then(annotatedImage => {
+            // the returned 'annotatedImage' is a Blob
+            let img = document.createElement('img')
+            img.src = URL.createObjectURL(annotatedImage)
+            img.width = imageElt.width
+            document.getElementById('maxvisOutput').appendChild(img)
+          })
+      } else if (maxvisAction === 'extract') {
+        // extract prediction from image
+        maxvis.extract(prediction, imageElt)
+          .then(response => {
+            response.forEach(imgInfo => {
+              let url = URL.createObjectURL(imgInfo.image)
+              let newImg = document.createElement('img')
+              newImg.src = url
+              newImg.width = imageElt.width
+              newImg.setAttribute('alt', imgInfo.label)
+              document.getElementById('maxvisOutput').appendChild(newImg)
+            })
+          })
+      }
+    }
+
+    function processImage () {
+      const imageElt = document.getElementById('imageElt')
+
+      if (imageElt.style.display === 'none') {
+        alert('please upload an image first')
+      } else {
+        disableElements(true)
+
+        imageElt.parentNode.style.height = imageElt.height
+
+        runInference()
+          .then(renderPrediction)
+          .catch(console.error)
+          .then(() => {
+            disableElements(false)
+          })
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('version').innerText = `v${maxvis.version}`
+      });
+    } else { 
+      document.getElementById('version').innerText = `v${maxvis.version}`
+    }
+  </script>
+  <body>
+    <div>
+      <h1>max-vis &nbsp; // <span id="version"></span></h1>
+      <p><code>with @codait/max-image-segmenter</code></p>
+      <div class="wrappingDiv">
+        <select id="maxvisAction">
+          <option value="overlay">overlay</option>
+          <option value="annotate">annotate</option>
+          <option value="extract">extract</option>s
+        </select>
+        <input id="fileInput" type="file" name="filename" accept="image/gif, image/jpeg, image/png" onchange="loadImage(this);">
+        <button id="runButton" onclick="processImage();">run</button>
+      </div>
+      
+      <div class="wrappingDiv">
+        <div id="imagewrapper">
+          <img id="imageElt" src="" style="display: none;"/>
+        </div>
+      </div>
+      <div id="maxvisOutput" class="wrappingDiv">
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@codait/max-image-segmenter"></script>
+    <script src="/dist/max-vis.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@codait/max-vis"></script> -->
+  </body>
+</html>

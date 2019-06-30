@@ -5,7 +5,7 @@
 *.tgz
 rollup.config.js
 
-node_modules/
+examples/
 images/
-demos/
+node_modules/
 src/
