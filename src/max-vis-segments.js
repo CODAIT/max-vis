@@ -25,7 +25,7 @@ const getPredication = function (prediction) {
   return Array.isArray(prediction) ? prediction : [prediction]
 }
 
-const normalizeData = function (prediction) {
+const transformData = function (prediction) {
   const p = getPredication(prediction)
   let segmentsData = []
 
@@ -160,7 +160,7 @@ const doOverlay = function (prediction, canvas, options = {}) {
     exclude: options.exclude
   }
 
-  const segmentsData = normalizeData(prediction)
+  const segmentsData = transformData(prediction)
   const { imageData } = segmentsDataToImageData(segmentsData, renderOpts)
 
   // scale canvas
@@ -175,7 +175,7 @@ const doOverlay = function (prediction, canvas, options = {}) {
  * @param {Object} prediction The prediction object from a MAX image model
  * @param {HTMLImageElement} image The HTMLImageElement to render the segmentation map
  * @param {Object} options Options to customize segmentation map renderings
- * @returns {Blob} A copy of the `image` with the segmentation maps rendered on it
+ * @returns {Blob|Buffer} A Blob object (in browsers) of Buffer (in Node.js) of an `image/png` with the segment map rendered
  */
 const doAnnotate = function (prediction, image, options = {}) {
   const annotationCanvas = createCanvasWithImage(image)
@@ -192,10 +192,10 @@ const doAnnotate = function (prediction, image, options = {}) {
  * @param {Object} prediction The prediction object from a MAX image model
  * @param {HTMLImageElement} image The HTMLImageElement to extract the segmentation maps
  * @param {Object} options Options to customize extraction
- * @returns {Array} An array of Objects containing the segment `label` and extracted `image` (Blob or Buffer)
+ * @returns {Array} An array of objects containing the segment `label` and extracted `image/png` (Blob or Buffer)
  */
 const doExtract = function (prediction, image, options = {}) {
-  const segmentsData = normalizeData(prediction)
+  const segmentsData = transformData(prediction)
   let segments = options.segments
 
   if (typeof segments !== 'undefined' && segments !== null) {

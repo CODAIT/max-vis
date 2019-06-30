@@ -39,7 +39,7 @@ const getPredication = function (prediction) {
   return Array.isArray(prediction) ? prediction : [prediction]
 }
 
-const normalizeData = function (prediction) {
+const transformData = function (prediction) {
   const p = getPredication(prediction)
   let linesData = []
 
@@ -107,7 +107,7 @@ const doOverlay = function (prediction, canvas, options = {}) {
   const colorRGB = options.colors ? options.colors : colors.rgb
   const lineWidth = options.lineWidth || undefined
   const scale = options.scale || 1
-  const linesData = normalizeData(prediction)
+  const linesData = transformData(prediction)
 
   for (var i = 0; i < linesData.length; i++) {
     let color = colorRGB[i % colorRGB.length]
@@ -125,7 +125,7 @@ const doOverlay = function (prediction, canvas, options = {}) {
  * @param {Object} prediction The prediction object from a MAX image model
  * @param {HTMLImageElement} image The HTMLImageElement to render the lines
  * @param {Object} options Options to customize line renderings
- * @returns {Blob} A copy of the `image` with the lines rendered on it
+ * @returns {Blob|Buffer} A Blob object (in browsers) of Buffer (in Node.js) of an `image/png` with the lines rendered
  */
 const doAnnotate = function (prediction, image, options = {}) {
   const scale = options.scale || 1

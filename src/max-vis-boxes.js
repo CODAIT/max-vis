@@ -28,7 +28,7 @@ const getPredication = function (prediction) {
   return Array.isArray(prediction) ? prediction : [prediction]
 }
 
-const normalizeData = function (prediction) {
+const transformData = function (prediction) {
   let p = getPredication(prediction)
 
   const reOrderBox = function (box) {
@@ -132,7 +132,7 @@ const doOverlay = function (prediction, canvas, options = {}) {
   const colorRGB = options.colors ? options.colors : colors.rgb
   const lineWidth = options.lineWidth || undefined
 
-  const boxesData = normalizeData(prediction)
+  const boxesData = transformData(prediction)
   const isRatio = boxesData[0].box.every(b => b <= 1)
   let scale = options.scale || 1
 
@@ -164,7 +164,7 @@ const doOverlay = function (prediction, canvas, options = {}) {
  * @param {Object} prediction The prediction object from a MAX image model
  * @param {HTMLImageElement} image The HTMLImageElement to render the bounding boxes
  * @param {Object} options Options to customize bounding box renderings
- * @returns {Blob} A copy of the `image` with the bounding boxes rendered on it
+ * @returns {Blob|Buffer} A Blob object (in browsers) of Buffer (in Node.js) of an `image/png` with the bounding boxes rendered
  */
 const doAnnotate = function (prediction, image, options = {}) {
   const annotatedCanvas = createCanvasWithImage(image)
@@ -181,12 +181,12 @@ const doAnnotate = function (prediction, image, options = {}) {
  * @param {Object} prediction The prediction object from a MAX image model
  * @param {HTMLImageElement} image The HTMLImageElement to extract the bounding boxes
  * @param {Object} options Options to customize extraction
- * @returns {Array} An array of Objects containing the bounding box `label` and extracted `image` (Blob or Buffer)
+ * @returns {Array} An array of objects containing the bounding box `label` and extracted `image/png` (Blob or Buffer)
  */
 const doExtract = function (prediction, image, options = {}) {
   const croppedImages = []
 
-  const boxesData = normalizeData(prediction)
+  const boxesData = transformData(prediction)
   const isRatio = boxesData[0].box.every(b => b <= 1)
   let scale = options.scale || 1
 
@@ -198,7 +198,6 @@ const doExtract = function (prediction, image, options = {}) {
     const box = scaleBox(boxesData[i].box, ...scale)
     const canvas = createCanvasWithImage(image, box[0], box[1], box[2] - box[0], box[3] - box[1])
 
-    // to Blob
     croppedImages.push({
       label: boxesData[i].label,
       image: base64toBlob(canvas.toDataURL().split(',')[1])
