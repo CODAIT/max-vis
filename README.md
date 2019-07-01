@@ -1,6 +1,6 @@
 # max-vis
 
-`max-vis` is a JavaScript library to help render the predictions returned by some of the deep learning models of the [Model Asset eXchange (MAX)](https://ibm.biz/max-models).
+`max-vis` is a JavaScript library and command-line utility to help render the predictions returned by some of the deep learning models of the [Model Asset eXchange (MAX)](https://ibm.biz/max-models).
 
 Given the JSON result (prediction) from one of the MAX image models and the source image, with `max-vis` you can render a new version of the image with predictions (i.e., bounding box, pose lines, etc) annotated on it.
 
@@ -18,9 +18,15 @@ Given the JSON result (prediction) from one of the MAX image models and the sour
    npm install @codait/max-vis
    ```
 
+- command-line
+
+   ```
+   npm install -g @codait/max-vis
+   ```
+
 ## Usage
 
-See working examples for browser and Node.js environments in the [`/examples`](https://github.com/CODAIT/max-vis/tree/master/examples) directory.
+See working examples for browser, Node.js, and command-line environments in the [`/examples`](https://github.com/CODAIT/max-vis/tree/master/examples) directory.
 
 - browser
 
@@ -65,12 +71,24 @@ See working examples for browser and Node.js environments in the [`/examples`](h
          })
       })
    ```
+
+- command-line
+
+   Pass prediction directly from a file  
+   ```
+   $ maxvis images/myImage.jpg -p maxImageModelPrediction.json
+   ```  
+
+   or pipe prediction from `curl`  
+   ```
+   $ curl -X POST "http://max-image-model-endpoint/model/predict" \
+   -F "image=@images/myImage.jpg" \
+   | maxvis images/myImage.jpg
+   ```  
+
+   > **Note**: _When installed as a command-line utility, the global command `maxvis` will be available._
    
 ## API
-
-### version
-
-Returns the `max-vis` version number
 
 ### overlay(_prediction_, _image_, _[options]_)  
 
@@ -103,13 +121,17 @@ Returns a Promise that resolves to an array of objects representing each item of
 - `image`: a `Blob` (in browsers) or `Buffer` (in Node.js) of a PNG image containing the cropped out area of the input image identified in prediction.  
 - `label`: a label for the image  
 
-## Options
+### version
+
+Returns the `max-vis` version number  
+
+## API Options
 
 Available options to pass to the API. All are optional and by default, `max-vis` will try to determine the appropriate values from the prediction object.
 
 | **Option** | **Type** | **Description** |  
 |--|--|--|  
-| `type` | String | The name of type of rendering the prediction applies to. Acceptable types are `boxes` (for bounding boxes), `lines` (for pose lines), or `segments` (for image segmentation). |  
+| `type` | String | The name of type of rendering the prediction conforms to. Acceptable types are `boxes` (for bounding boxes), `lines` (for pose lines), or `segments` (for image segmentation). |  
 | `height` | Number | The height (in pixels) of the image represented by the prediction |  
 | `width` | Number | The width (in pixels) of the image represented by the prediction |  
 | `colors` | 2D array | An array of RGB values to use for rendering (e.g., [[255,0,200], [125,125,125], ...]) |  
@@ -117,9 +139,19 @@ Available options to pass to the API. All are optional and by default, `max-vis`
 | `exclude` | Boolean | Set to `true` if `segments` option indicates segmentation that should be excluded instead of included in processing. Default is `false`. This is only applicable for predictions of type `segments`. |  
 | `lineWidth` | Number | The thickness of the lines in the rendering. Default is 2. This is only applicable for predictions of type `boxes` or `lines`. |  
 
+## CLI Parameters
+
+Available parameters to pass to the CLI
+
+| **Parameter** | **Description** |  
+|--|--|  
+| `--type` | Same as `type` API option |
+| `--extract` | Extract and save each component of the prediction from the image instead of saving a single image will all components rendered |
+| `--prediction` | The path to a JSON file containing the prediction returned by a MAX image model |  
+
 ## Examples
 
-The [`/examples`](https://github.com/CODAIT/max-vis/tree/master/examples) directory contains working examples for the browser and Node.js environments.
+The [`/examples`](https://github.com/CODAIT/max-vis/tree/master/examples) directory contains working examples for the browser, Node.js, and command-line environments.
 
 - **annotate bounding boxes**  
 ![jockey](images/jockey-annotate.jpg)

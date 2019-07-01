@@ -8,6 +8,13 @@ import { version } from '../package.json'
 const visualizers = [lines, segments, boxes]
 const { OVERLAY, ANNOTATE, EXTRACT } = { ...utilActions }
 
+let types = []
+visualizers.forEach(v => {
+  if (types.indexOf(v.type) === -1) {
+    types.push(v.type)
+  }
+})
+
 const run = async function (action, prediction, image, options = {}) {
   let vis = visualizers.find(v => {
     return v.supportsAction(action, prediction, options)
@@ -92,5 +99,6 @@ export {
   overlay,
   annotate,
   extract,
-  version
+  version,
+  types
 }

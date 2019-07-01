@@ -69,7 +69,7 @@ const annotateImage = function (prediction) {
 
   maxvis.annotate(prediction, imagePath)
     .then(annotatedImageBuffer => {
-      const f = path.join(path.parse(imagePath).dir, `${imageName}-annotate.png`)
+      const f = path.join(path.parse(imagePath).dir, `${path.parse(imagePath).name}-annotate.png`)
 
       fs.writeFile(f, annotatedImageBuffer, (err) => {
         if (err) {

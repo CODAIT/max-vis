@@ -1,11 +1,14 @@
 {
   "name": "@codait/max-vis",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Image annotation library for MAX image models",
   "main": "dist/max-vis.cjs.js",
   "module": "dist/max-vis.es.js",
   "jsdelivr": "dist/max-vis.min.js",
   "unpkg": "dist/max-vis.min.js",
+  "bin": {
+    "maxvis": "bin/max-vis-cli.js"
+  },
   "scripts": {
     "build": "npm run clean && npm run rollup && npm run uglify",
     "clean": "rimraf dist && mkdirp dist",
@@ -45,7 +48,8 @@
     "uglify-es": "^3.3.9"
   },
   "dependencies": {
-    "canvas": "^2.1.0"
+    "canvas": "^2.1.0",
+    "commander": "^2.20.0"
   },
   "standard": {
     "ignore": [

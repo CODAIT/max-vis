@@ -1,7 +1,7 @@
 # Examples
 
-This folder contains browser and Node.js examples of using `max-vis`.
-Follow the steps below to install and run the browser or Node.js example.
+This folder contains browser, Node.js, and command-line examples of using `max-vis`.
+Follow the steps below to install and run the browser, Node.js, or command-line example.
 
 Open a terminal and run the commands:
 
@@ -25,7 +25,7 @@ Open a terminal and run the commands:
     npm run build
     ```
     
-1. Continue with the **[Browser](#Browser)** or **[Node.js](#Node.js)** steps below.  
+1. Continue with the **[Browser](#Browser)**, **[Node.js](#Node.js)**, or **[Command-line](#Command-line)** steps below.  
 
 ## Browser
 
@@ -72,4 +72,15 @@ For the Node.js example, continue in the terminal shell with the following comma
     node examples/app.js path/to/image/file.jpg
     ```
 
-> **Note**: _The Node.js example uses a [MAX Object Detector](https://github.com/IBM/MAX-Object-Detector) REST endpoint to identify objects in an image._
+> **Note**: _The Node.js example uses a hosted evaluation instance of the [MAX Object Detector](https://github.com/IBM/MAX-Object-Detector) to identify objects in an image._  
+
+## Command-line
+
+For the command-line example, continue in the terminal shell with the following commands:
+
+1. Run the script and pass it a path to an image to process
+    ```
+    ./examples/cli.sh path/to/image/file.jpg
+    ```  
+
+> **Note**: _The command-line example uses a hosted evaluation instance of the [MAX Object Detector](https://github.com/IBM/MAX-Object-Detector) to identify objects in an image._  
