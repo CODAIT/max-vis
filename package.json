@@ -1,6 +1,6 @@
 {
   "name": "@codait/max-vis",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Image annotation library for MAX image models",
   "main": "dist/max-vis.cjs.js",
   "module": "dist/max-vis.es.js",
@@ -9,6 +9,10 @@
   "bin": {
     "maxvis": "bin/max-vis-cli.js"
   },
+  "files": [
+    "bin",
+    "dist"
+  ],
   "scripts": {
     "build": "npm run clean && npm run rollup && npm run uglify",
     "clean": "rimraf dist && mkdirp dist",
