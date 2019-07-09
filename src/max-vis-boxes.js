@@ -190,8 +190,11 @@ const doExtract = function (prediction, image, options = {}) {
   const isRatio = boxesData[0].box.every(b => b <= 1)
   let scale = options.scale || 1
 
+  const w = image.naturalWidth || image.width || image.clientWidth
+  const h = image.naturalHeight || image.height || image.clientHeight
+
   scale = isRatio
-    ? [image.naturalWidth * scale, image.naturalHeight * scale]
+    ? [w * scale, h * scale]
     : [scale, scale]
 
   for (var i = 0; i < boxesData.length; i++) {

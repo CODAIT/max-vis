@@ -48,8 +48,8 @@ const getCanvasOverlay = function (image, options) {
 }
 
 const createCanvasWithImage = function (image, imageX = 0, imageY = 0, imageW, imageH, canvasX = 0, canvasY = 0, canvasW, canvasH) {
-  const w = imageW || image.naturalWidth
-  const h = imageH || image.naturalHeight
+  const w = imageW || image.naturalWidth || image.width || image.clientWidth
+  const h = imageH || image.naturalHeight || image.height || image.clientHeight
   const tempCanvas = createCanvasElement((canvasW || w), (canvasH || h))
   const tempCanvasCtx = tempCanvas.getContext('2d')
   tempCanvasCtx.drawImage(image, imageX, imageY, w, h, canvasX, canvasY, tempCanvas.width, tempCanvas.height)

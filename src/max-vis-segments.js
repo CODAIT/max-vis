@@ -108,6 +108,9 @@ const extractSegments = function (image, segmentsData, cropOpts) {
   const croppedCanvas = createCanvasWithImageData(createImageData(imageData.width, imageData.height))
   const croppedCanvasCtx = croppedCanvas.getContext('2d')
 
+  const w = image.naturalWidth || image.width || image.clientWidth
+  const h = image.naturalHeight || image.height || image.clientHeight
+
   croppedCanvasCtx.drawImage(tempCanvas, 0, 0, tempCanvas.width, tempCanvas.height, 0, 0, croppedCanvas.width, croppedCanvas.height)
 
   const croppedImageData = croppedCanvasCtx.getImageData(0, 0, croppedCanvas.width, croppedCanvas.height)
@@ -119,7 +122,7 @@ const extractSegments = function (image, segmentsData, cropOpts) {
   croppedCanvasCtx.putImageData(croppedImageData, 0, 0)
 
   // scale canvas
-  const scaledCanvas = createCanvasWithImageData(createImageData(image.naturalWidth, image.naturalHeight))
+  const scaledCanvas = createCanvasWithImageData(createImageData(w, h))
   const scaledCanvasCtx = scaledCanvas.getContext('2d')
 
   scaledCanvasCtx.drawImage(croppedCanvas, 0, 0, croppedCanvas.width, croppedCanvas.height, 0, 0, scaledCanvas.width, scaledCanvas.height)
