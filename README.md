@@ -52,7 +52,7 @@ See working examples for browser, Node.js, and command-line environments in the 
 - Node.js
 
    ```javascript
-   const maxvis = require('max-vis')
+   const maxvis = require('@codait/max-vis')
 
    // the prediction (JSON object) returned by a MAX image model
    const prediction = ... 
