@@ -8,7 +8,7 @@ const maxvis = require('../dist/max-vis.cjs.js')
 let imagePath
 
 const isImage = function (fileName) {
-  const name = fileName[0] === '/' ? fileName : `${process.cwd()}/${fileName}`
+  const name = path.resolve(fileName)
 
   const fileSignatures = [
     [0xFF, 0xD8, 0xFF], // jpg
@@ -38,7 +38,7 @@ const isImage = function (fileName) {
 
 const getPrediction = function (jsonFile) {
   if (jsonFile) {
-    const name = jsonFile[0] === '/' ? jsonFile : `${process.cwd()}/${jsonFile}`
+    const name = path.resolve(jsonFile)
     try {
       const pred = require(name)
       return Promise.resolve(pred)
