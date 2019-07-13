@@ -14,7 +14,7 @@ const isArrayOfSegments = function (map) {
   return Array.isArray(map) && map.length && map.every(isSegment)
 }
 
-const getPredication = function (prediction) {
+const getPrediction = function (prediction) {
   if (prediction.segmentationMap) {
     // Image-Segmenter: TensorFlow.js
     return prediction.segmentationMap
@@ -26,7 +26,7 @@ const getPredication = function (prediction) {
 }
 
 const transformData = function (prediction) {
-  const p = getPredication(prediction)
+  const p = getPrediction(prediction)
   let segmentsData = []
 
   if (isSegment(p)) {
@@ -45,7 +45,7 @@ const transformData = function (prediction) {
 const canRender = function (prediction, options = {}) {
   const isType = (!options.type) || (typeof options.type === 'string' && options.type.toLowerCase() === type)
   if (isType) {
-    const p = getPredication(prediction)
+    const p = getPrediction(prediction)
     return isArrayOfSegments(p) || isSegment(p)
   } else {
     return false

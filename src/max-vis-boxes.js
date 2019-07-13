@@ -17,7 +17,7 @@ const isArrayOfBoxes = function (boxes) {
   })
 }
 
-const getPredication = function (prediction) {
+const getPrediction = function (prediction) {
   if (prediction.predictions) {
     // Object-Detector: Docker microservice
     // Facial-Age-Estimator: Docker microservice
@@ -29,7 +29,7 @@ const getPredication = function (prediction) {
 }
 
 const transformData = function (prediction) {
-  let p = getPredication(prediction)
+  let p = getPrediction(prediction)
 
   const reOrderBox = function (box) {
     if (box.every(b => b <= 1)) {
@@ -82,7 +82,7 @@ const transformData = function (prediction) {
 const canRender = function (prediction, options = {}) {
   const isType = (!options.type) || (typeof options.type === 'string' && options.type.toLowerCase() === type)
   if (isType) {
-    const p = getPredication(prediction)
+    const p = getPrediction(prediction)
     return isArrayOfBoxes(p) || isBox(p)
   } else {
     return false

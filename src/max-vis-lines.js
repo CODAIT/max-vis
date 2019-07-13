@@ -28,7 +28,7 @@ const isArrayOfPoses = function (poses) {
     })
 }
 
-const getPredication = function (prediction) {
+const getPrediction = function (prediction) {
   if (prediction.posesDetected) {
     // Human-Pose-Estimator: TensorFlow.js
     return prediction.posesDetected
@@ -40,7 +40,7 @@ const getPredication = function (prediction) {
 }
 
 const transformData = function (prediction) {
-  const p = getPredication(prediction)
+  const p = getPrediction(prediction)
   let linesData = []
 
   if (isLine(p)) {
@@ -70,7 +70,7 @@ const transformData = function (prediction) {
 const canRender = function (prediction, options = {}) {
   const isType = (!options.type) || (typeof options.type === 'string' && options.type.toLowerCase() === type)
   if (isType) {
-    const p = getPredication(prediction)
+    const p = getPrediction(prediction)
     return isArrayOfPoses(p) || isPose(p) || isLine(p)
   } else {
     return false
