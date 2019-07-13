@@ -121,6 +121,11 @@ cmdline
   .option('-t, --type <name>', 'The name of type of rendering the prediction conforms to. Valid types are: "boxes", "lines", "segments"')
   .option('-p, --prediction <filePath>', 'The path to a JSON file containing the prediction returned by a MAX image model')
   .version(maxvis.version, '-v, --version')
+  .on('--help', () => {
+    console.log('')
+    console.log('Learn more at https://github.com/CODAIT/max-vis')
+    console.log('')
+  })
 
 cmdline.parse(process.argv)
 
