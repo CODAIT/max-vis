@@ -7,7 +7,6 @@ const path = require('path')
 const FormData = require('form-data')
 
 let imagePath
-let imageName
 
 console.log(`\r\nrunning version ${maxvis.version}`)
 
@@ -17,7 +16,6 @@ if (process.argv.length < 3) {
   process.exit(-1)
 } else {
   imagePath = process.argv[2]
-  imageName = path.parse(imagePath).name
 }
 
 const form = new FormData()
