@@ -1,7 +1,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>max-vis</title>
+    <title>max-vis // image</title>
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
     <style>
@@ -107,18 +107,20 @@
       }
     }
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('version').innerText = `v${maxvis.version}`
-      });
-    } else { 
+    const init = function () {
       document.getElementById('version').innerText = `v${maxvis.version}`
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init)
+    } else {
+      init()
     }
   </script>
   <body>
     <div>
       <h1>max-vis &nbsp; // <span id="version"></span></h1>
-      <p><code>with @codait/max-image-segmenter</code></p>
+      <p><code>images with @codait/max-image-segmenter</code></p>
       <div class="wrappingDiv">
         <select id="maxvisAction">
           <option value="overlay">overlay</option>

@@ -8,13 +8,12 @@ const FormData = require('form-data')
 
 let imagePath
 
-console.log(`\r\nrunning version ${maxvis.version}`)
-
 if (process.argv.length < 3) {
   console.log('please pass an image to process. ex:')
   console.log('  node app.js /path/to/image.jpg')
   process.exit(-1)
 } else {
+  console.log(`@codait/max-vis v${maxvis.version}`)
   imagePath = process.argv[2]
 }
 

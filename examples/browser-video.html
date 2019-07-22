@@ -1,0 +1,96 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>max-vis // video</title>
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+    <style>
+      body { padding: 20px; font-family: 'IBM Plex Sans', sans-serif; }
+      h1 { margin: 0; }
+      p { margin: 0 0 30px 0; }
+      #version { font-size: 0.8em; font-family: 'IBM Plex Mono', monospace; }
+      code { font-family: 'IBM Plex Mono', monospace; }
+      .wrappingDiv { padding: 10px 0; }
+    </style>
+  </head>
+  <script>
+    let webcamStream
+    let video
+    let videoCanvas
+    let videoCanvasCtx
+
+    const constraints = {
+      video: true,
+      audio: false
+    }
+
+    // get user media and start video streaming
+    const startWebcam = async function () {
+      const webcamBtn = document.getElementById('startwebcam')
+      try {
+        webcamBtn.setAttribute('disabled', true)
+        webcamStream = await navigator.mediaDevices.getUserMedia(constraints)
+        video = document.createElement('video')
+
+        if (typeof video.srcObject !== 'undefined') {
+          video.srcObject = webcamStream
+        }
+        else {
+          video.src = URL.createObjectURL(webcamStream)
+        }
+
+        videoCanvas = document.getElementById('canvasvideo')
+        videoCanvasCtx = videoCanvas.getContext('2d')
+        // mirror video image
+        videoCanvasCtx.translate(videoCanvas.width, 0)
+        videoCanvasCtx.scale(-1, 1)
+
+        video.play()
+        renderPrediction()
+      } catch(err) {
+        console.error(err)
+        webcamBtn.removeAttribute('disabled')
+      }
+    }
+
+    const renderPrediction = async function () {
+      try {
+        videoCanvasCtx.drawImage(video, 0, 0, videoCanvas.width, videoCanvas.height)
+        const prediction = await imageSegmenter.predict(videoCanvas)
+        await maxvis.overlay(prediction, videoCanvas)
+
+        requestAnimationFrame(renderPrediction)
+      } catch (e) {
+        console.error(e)
+      }
+    }
+
+    const init = function () {
+      document.getElementById('version').innerText = `v${maxvis.version}`
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init)
+    } else {
+      init()
+    }
+  </script>
+  <body>
+    <div>
+      <h1>max-vis &nbsp; // <span id="version"></span></h1>
+      <p><code>video with @codait/max-image-segmenter</code></p>
+      <div class="wrappingDiv">
+        <button id="startwebcam" onclick="startWebcam();">Start webcam</button>
+      </div>
+      
+      <div class="wrappingDiv">
+        <canvas id="canvasvideo" width="512", height="384"></canvas>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@codait/max-image-segmenter"></script>
+    <script src="/dist/max-vis.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@codait/max-vis"></script> -->
+  </body>
+</html>
