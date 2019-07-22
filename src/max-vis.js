@@ -22,7 +22,7 @@ const run = async function (action, prediction, image, options = {}) {
 
   if (!vis) {
     const msg = options.type
-      ? `max-vis '${action}' does not support type (${options.type})`
+      ? `invalid prediction of max-vis '${action}' does not support type (${options.type})`
       : `Unable to determine type or '${action}()' does not support the provided prediction`
     throw Error(msg)
   }

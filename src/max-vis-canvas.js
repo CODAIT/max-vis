@@ -34,8 +34,13 @@ const getCanvasOverlay = function (image, options) {
     image.insertAdjacentElement('afterend', canvas)
   }
 
-  canvas.width = image.width
-  canvas.height = image.height
+  canvas.width = image.width || image.clientWidth
+  canvas.height = image.height || image.clientHeight
+  canvas.style.width = getComputedStyle(image).width
+  canvas.style.height = getComputedStyle(image).height
+  canvas.style.margin = '0px'
+  canvas.style.padding = '0px'
+
   canvas.style.position = 'absolute'
   canvas.style.left = image.offsetLeft + 'px'
   canvas.style.top = image.offsetTop + 'px'

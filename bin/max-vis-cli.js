@@ -8,6 +8,11 @@ const maxvis = require('../dist/max-vis.cjs.js')
 let imagePath
 
 const isImage = function (fileName) {
+  if (fileName.search(/https?:/) === 0) {
+    // skipping http(s) requests
+    return Promise.resolve(fileName)
+  }
+
   const name = path.resolve(fileName)
 
   const fileSignatures = [
@@ -94,8 +99,15 @@ const run = function (command, prediction, image, options = {}) {
   if (command === 'annotate') {
     return maxvis.annotate(prediction, image, options)
       .then(imageBuffer => {
-        const filePath = path.join(path.parse(imagePath).dir, `${path.parse(imagePath).name}-annotate.png`)
-        return save(imageBuffer, filePath)
+        let savePath = imagePath
+        if (savePath.search(/https?:/) === 0) {
+          // save in current working directory
+          savePath = path.join(process.cwd(), `${path.parse(savePath).name}-annotate.png`)
+        } else {
+          // save in same directory as original
+          savePath = path.join(path.parse(savePath).dir, `${path.parse(savePath).name}-annotate.png`)
+        }
+        return save(imageBuffer, savePath)
       })
   } else if (command === 'extract') {
     return maxvis.extract(prediction, image, options)
