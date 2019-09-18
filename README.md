@@ -96,7 +96,7 @@ Processes the prediction against the image and renders the prediction (in a `Can
 
 `prediction` - (Required) the prediction output from a MAX image model  
 `image` - (Required) an `HTMLImageElement` or the `id` of an `HTMLImageElement`  
-`options` - (Optional) a JSON object of options to customize rendering. See [Options](#Options) for more info.  
+`options` - (Optional) a JSON object of options to customize rendering. See [Options](#API-Options) for more info.  
 
 ### annotate(_prediction_, _image_, _[options]_)  
 
@@ -104,7 +104,7 @@ Processes the prediction against the image and creates a new version of the imag
 
 `prediction` - (Required) the prediction output from a MAX image model  
 `image` - (Required) an `HTMLImageElement` or `HTMLCanvasElement` or the `id` of an `HTMLImageElement` or `HTMLCanvasElement`.  
-`options` - (Optional) a JSON object of options to customize rendering. See [Options](#Options) for more info.  
+`options` - (Optional) a JSON object of options to customize rendering. See [Options](#API-Options) for more info.  
 
 Returns a Promise that resolves to a `Blob` (in browsers) or `Buffer` (in Node.js) of a PNG image containing the input image annotated with the prediction.
 
@@ -114,7 +114,7 @@ Processes the prediction against the image, extracts the components from the ima
 
 `prediction` - (Required) the prediction output from a MAX image model  
 `image` - (Required) an `HTMLImageElement` or `HTMLCanvasElement` or the `id` of an `HTMLImageElement` or `HTMLCanvasElement`.  
-`options` - (Optional) a JSON object of options to customize rendering. See [Options](#Options) for more info.  
+`options` - (Optional) a JSON object of options to customize rendering. See [Options](#API-Options) for more info.  
 
 Returns a Promise that resolves to an array of objects representing each item of the prediction. Each object in the array contains:
 
