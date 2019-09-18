@@ -142,16 +142,17 @@ const doOverlay = function (prediction, canvas, options = {}) {
 
   for (var i = 0; i < boxesData.length; i++) {
     const box = scaleBox(boxesData[i].box, ...scale)
-    const color = colorRGB[i % colorRGB.length]
+    const boxLabel = boxesData[i].label
+    const color = (boxLabel && colorRGB[boxLabel]) ? colorRGB[boxLabel] : colorRGB[i % colorRGB.length]
 
     drawBox(canvasCtx, ...box, color, lineWidth)
 
-    if (boxesData[i].label) {
+    if (boxLabel) {
       if (typeof options.label === 'undefined' ||
           options.label === null ||
           (typeof options.label === 'string' && options.label.toLowerCase() !== 'false') ||
           (typeof options.label !== 'string' && !options.label)) {
-        drawLabel(boxesData[i].label, canvasCtx, box[0], box[1], color)
+        drawLabel(boxLabel, canvasCtx, box[0], box[1], color)
       }
     }
   }

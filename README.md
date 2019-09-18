@@ -134,7 +134,7 @@ Available options to pass to the API. All are optional and by default, `max-vis`
 | `type` | String | The name of type of rendering the prediction conforms to. Acceptable types are `boxes` (for bounding boxes), `lines` (for pose lines), or `segments` (for image segmentation). |  
 | `height` | Number | The height (in pixels) of the image represented by the prediction |  
 | `width` | Number | The width (in pixels) of the image represented by the prediction |  
-| `colors` | 2D array | An array of RGB values to use for rendering (e.g., [[255,0,200], [125,125,125], ...]) |  
+| `colors` | 2D array or Object | An array of RGB values to use for rendering (e.g., `[[255,0,200], [125,125,125], ...]`). Alternatively, for bounding boxes an object of label names mapped to preferred RGB values (e.g., `{person: [255,0,200], horse: [125,125,125], ...}`) can be passed. |  
 | `segments` | Array | An array of segmentation IDs to process (e.g., [0, 15]). If not provided, all segments will be processed. This is only applicable for predictions of type `segments`. |  
 | `exclude` | Boolean | Set to `true` if `segments` option indicates segmentation that should be excluded instead of included in processing. Default is `false`. This is only applicable for predictions of type `segments`. |  
 | `lineWidth` | Number | The thickness of the lines in the rendering. Default is 2. This is only applicable for predictions of type `boxes` or `lines`. |  
