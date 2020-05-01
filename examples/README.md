@@ -25,7 +25,7 @@ Open a terminal and run the commands:
     npm run build
     ```
     
-1. Continue with the **[Browser](#Browser)**, **[Node.js](#Node.js)**, or **[Command-line](#Command-line)** steps below.  
+1. Continue with the **[Browser](#browser)**, **[Node.js](#nodejs)**, or **[Command-line](#command-line)** steps below.  
 
 ## Browser
 
