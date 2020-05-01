@@ -1,4 +1,4 @@
-/* global ImageData */
+/* global ImageData, getComputedStyle */
 
 const DEFAULT_LINE = 3
 let createCanvasElement
