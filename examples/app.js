@@ -20,8 +20,8 @@ if (process.argv.length < 3) {
 const form = new FormData()
 form.append('image', fs.createReadStream(imagePath))
 
-// Object Detector Endpoint: http://max-object-detector.max.us-south.containers.appdomain.cloud/model/predict
-const hostName = 'max-object-detector.max.us-south.containers.appdomain.cloud'
+// Object Detector Endpoint: http://max-object-detector.codait-prod-41208c73af8fca213512856c7a09db52-0000.us-east.containers.appdomain.cloud/model/predict
+const hostName = 'max-object-detector.codait-prod-41208c73af8fca213512856c7a09db52-0000.us-east.containers.appdomain.cloud'
 const request = http.request({
   method: 'post',
   host: hostName,
