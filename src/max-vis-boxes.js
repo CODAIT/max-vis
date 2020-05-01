@@ -13,7 +13,7 @@ const isBox = function (box) {
 const isArrayOfBoxes = function (boxes) {
   return Array.isArray(boxes) && boxes.length && boxes.every(b => {
     // Docker microservices have 'detection_box'
-    return isBox(b['detection_box'] || b)
+    return isBox(b['detection_box'] || b['bbox'] || b)
   })
 }
 
@@ -66,6 +66,8 @@ const transformData = function (prediction) {
     if (box['detection_box']) {
       // Docker microservices
       b = box['detection_box']
+    } else if (box['bbox']) {
+      b = box['bbox']
     } else if (isBox(box)) {
       b = box
     }
