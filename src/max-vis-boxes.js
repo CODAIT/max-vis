@@ -13,7 +13,7 @@ const isBox = function (box) {
 const isArrayOfBoxes = function (boxes) {
   return Array.isArray(boxes) && boxes.length && boxes.every(b => {
     // Docker microservices have 'detection_box'
-    return isBox(b['detection_box'] || b['bbox'] || b)
+    return isBox(b.detection_box || b.bbox || b)
   })
 }
 
@@ -47,15 +47,15 @@ const transformData = function (prediction) {
   const boxesData = p.map((box, i) => {
     // some Docker microservices have 'label'
     // Facial-Age-Estimator: Docker microservice has 'age_estimation'
-    let label = box.label || box['age_estimation'] || ''
+    let label = box.label || box.age_estimation || ''
 
     if (!label) {
-      if (box['probability']) {
+      if (box.probability) {
         // Facial-Recognizer: Docker microservice
-        label = (box['probability'] * 100).toFixed(2)
-      } else if (box['emotion_predictions']) {
+        label = (box.probability * 100).toFixed(2)
+      } else if (box.emotion_predictions) {
         // Facial-Emotion-Classifier: Docker microservice
-        label = box['emotion_predictions'].sort((a, b) => {
+        label = box.emotion_predictions.sort((a, b) => {
           return b.probability - a.probability
         })[0].label
       }
@@ -63,11 +63,11 @@ const transformData = function (prediction) {
 
     let b = []
 
-    if (box['detection_box']) {
+    if (box.detection_box) {
       // Docker microservices
-      b = box['detection_box']
-    } else if (box['bbox']) {
-      b = box['bbox']
+      b = box.detection_box
+    } else if (box.bbox) {
+      b = box.bbox
     } else if (isBox(box)) {
       b = box
     }

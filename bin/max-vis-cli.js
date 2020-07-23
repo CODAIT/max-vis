@@ -54,7 +54,7 @@ const getPrediction = function (jsonFile) {
     const stream = process.stdin
 
     return new Promise((resolve, reject) => {
-      let data = []
+      const data = []
       if (!stream.isTTY) {
         stream.setEncoding('utf8')
         stream.on('readable', () => {
@@ -75,7 +75,7 @@ const getPrediction = function (jsonFile) {
           reject(e)
         })
       } else {
-        reject(new Error(`invalid or no prediction provided`))
+        reject(new Error('invalid or no prediction provided'))
       }
     })
   }
@@ -124,7 +124,7 @@ const run = function (command, prediction, image, options = {}) {
 
 cmdline
   .description('Image annotation library for MAX image models')
-  .usage(`<imagePath> [options]`)
+  .usage('<imagePath> [options]')
   .arguments('<imagePath>')
   .action(p => {
     imagePath = p

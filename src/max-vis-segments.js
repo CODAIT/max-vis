@@ -18,9 +18,9 @@ const getPrediction = function (prediction) {
   if (prediction.segmentationMap) {
     // Image-Segmenter: TensorFlow.js
     return prediction.segmentationMap
-  } else if (prediction['seg_map']) {
+  } else if (prediction.seg_map) {
     // Image-Segmenter: Docker microservice
-    return prediction['seg_map']
+    return prediction.seg_map
   }
   return Array.isArray(prediction) ? prediction : [prediction]
 }
@@ -69,11 +69,11 @@ const segmentsDataToImageData = function (segmentsData, renderOpts) {
 
   const crop = segments && renderOpts.crop
   const croppedDataIndex = []
-  let data = []
+  const data = []
 
   for (var j = 0; j < height; j++) {
     for (var i = 0; i < width; i++) {
-      let s = segmentsData[j][i]
+      const s = segmentsData[j][i]
       if (segments) {
         if (segments.indexOf(s) === -1) {
           // const rgb = excludes ? (crop ? 255 : 175) : [0, 0, 0]
@@ -96,7 +96,7 @@ const segmentsDataToImageData = function (segmentsData, renderOpts) {
     }
   }
 
-  let imageData = createImageData(width, height)
+  const imageData = createImageData(width, height)
   imageData.data.set(data)
 
   return { imageData, croppedDataIndex }

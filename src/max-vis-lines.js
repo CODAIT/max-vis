@@ -24,7 +24,7 @@ const isArrayOfPoses = function (poses) {
     poses.every(p => {
       // Human-Pose-Estimator: TensorFlow.js has 'poseLines'
       // Human-Pose-Estimator: Docker microservice has 'pose_lines'
-      return isPose(p.poseLines || p['pose_lines'] || p)
+      return isPose(p.poseLines || p.pose_lines || p)
     })
 }
 
@@ -52,9 +52,9 @@ const transformData = function (prediction) {
       if (pose.poseLines) {
         // Human-Pose-Estimator: TensorFlow.js
         return pose.poseLines
-      } else if (pose['pose_lines']) {
+      } else if (pose.pose_lines) {
         // Docker Human-Pose-Estimator microservice
-        return pose['pose_lines'].map(pl => pl.line)
+        return pose.pose_lines.map(pl => pl.line)
       } else if (isPose(pose)) {
         // nested arrays of line points (i.e., [xMin, yMin, xMax, yMax])
         return pose
@@ -110,9 +110,9 @@ const doOverlay = function (prediction, canvas, options = {}) {
   const linesData = transformData(prediction)
 
   for (var i = 0; i < linesData.length; i++) {
-    let color = colorRGB[i % colorRGB.length]
+    const color = colorRGB[i % colorRGB.length]
     linesData[i].forEach((l, j) => {
-      let line = scale === 1 ? l : l.map(a => a * scale)
+      const line = scale === 1 ? l : l.map(a => a * scale)
       drawLine(canvasCtx, ...line, color, lineWidth)
     })
   }

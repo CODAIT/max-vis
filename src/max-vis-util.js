@@ -59,9 +59,9 @@ const getPredictionSize = function (prediction, options) {
   if (options.height && options.width) {
     height = options.height
     width = options.width
-  } else if (prediction['image_size']) {
-    height = prediction['image_size'][1]
-    width = prediction['image_size'][0]
+  } else if (prediction.image_size) {
+    height = prediction.image_size[1]
+    width = prediction.image_size[0]
   } else if (prediction.imageSize) {
     height = prediction.imageSize.height
     width = prediction.imageSize.width
@@ -75,7 +75,7 @@ const getPredictionSize = function (prediction, options) {
 
 const base64toBlob = function (b64, type = 'image/png') {
   const bStr = process.rollupBrowser ? atob(b64) : Buffer.from(b64, 'base64').toString('binary')
-  let arr = new Uint8Array(bStr.length)
+  const arr = new Uint8Array(bStr.length)
   for (let i = 0; i < bStr.length; i++) {
     arr[i] = bStr.charCodeAt(i)
   }
@@ -91,7 +91,7 @@ const findUnique = function (array) {
   const unique = []
 
   if (Array.isArray(array)) {
-    let tempArray = array.slice(0)
+    const tempArray = array.slice(0)
 
     while (tempArray.length !== 0) {
       const element = tempArray.pop()
